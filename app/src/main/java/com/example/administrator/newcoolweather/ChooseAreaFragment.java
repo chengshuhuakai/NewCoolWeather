@@ -2,36 +2,37 @@
 
 
     import android.app.ProgressDialog;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
+    import android.content.Intent;
+    import android.os.Bundle;
+    import android.support.v4.app.Fragment;
+    import android.util.Log;
+    import android.view.LayoutInflater;
+    import android.view.View;
+    import android.view.ViewGroup;
+    import android.widget.AdapterView;
+    import android.widget.ArrayAdapter;
+    import android.widget.Button;
+    import android.widget.ListView;
+    import android.widget.TextView;
 
-import com.example.administrator.newcoolweather.db.City;
-import com.example.administrator.newcoolweather.db.County;
-import com.example.administrator.newcoolweather.db.Province;
-import com.example.administrator.newcoolweather.util.HttpUtil;
-import com.example.administrator.newcoolweather.util.Utility;
+    import com.example.administrator.newcoolweather.db.City;
+    import com.example.administrator.newcoolweather.db.County;
+    import com.example.administrator.newcoolweather.db.Province;
+    import com.example.administrator.newcoolweather.util.HttpUtil;
+    import com.example.administrator.newcoolweather.util.Utility;
 
-import org.jetbrains.annotations.NotNull;
-import org.litepal.LitePal;
+    import org.jetbrains.annotations.NotNull;
+    import org.litepal.LitePal;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+    import java.io.IOException;
+    import java.util.ArrayList;
+    import java.util.List;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+    import okhttp3.Call;
+    import okhttp3.Callback;
+    import okhttp3.Response;
 
-import static android.content.ContentValues.TAG;
+    import static android.content.ContentValues.TAG;
 
 
     /**
@@ -132,6 +133,14 @@ public class ChooseAreaFragment extends Fragment {
                 }else if(currentLevel == LEVEL_CITY){
                     seletedCity = cityList.get(position);
                     queryCountries();
+                }else if(currentLevel == LEVEL_COUNTRY){
+                    //如果当前是 LEVEL_COUNTY ,则启动weatherActivity，并且把weatherId传过去
+                    String weatherId  = countyList.get(position).getWeatherId();
+                    Intent intent = new Intent (getActivity(),WeatherActivity.class);
+                    intent.putExtra("weather_id",weatherId);
+                    startActivity(intent);
+                    //停止当前MainActivity
+                    getActivity().finish();
                 }
             }
         });
