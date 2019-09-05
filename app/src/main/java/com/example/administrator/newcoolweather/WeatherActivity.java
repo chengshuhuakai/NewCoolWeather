@@ -1,5 +1,6 @@
 package com.example.administrator.newcoolweather;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -238,6 +239,7 @@ public class WeatherActivity extends AppCompatActivity {
         });
     }
 
+
     private void requestWeather(String weatherId) {
         //组装接口地址 ,这里key 还没修改，要改成自己的。
         String weatherUrl = "http://guolin.tech/api/weather?cityid=" + weatherId + "&key=50495675180144f098496983601b4f80";
@@ -249,6 +251,7 @@ public class WeatherActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(WeatherActivity.this,"获取天气信息失败",Toast.LENGTH_SHORT).show();
+
                         swipeRefresh.setRefreshing(false);//刷新事件结束，将进度条隐藏起来
                     }
                 });
@@ -366,8 +369,8 @@ public class WeatherActivity extends AppCompatActivity {
         weatherLayout.setVisibility(View.VISIBLE);
         //激活AutoUpdateService这个服务，只要选中了某个城市并成功更新天气之后，
         // AutoUpdateService就会一直在后台运行，并保证每8个小时更新一次天气
-       // Intent intent = new Intent(this, AutoUpdateService.class);
-       // startService(intent);
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
       }
 
   }
